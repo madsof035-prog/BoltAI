@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شاشة ترحيب</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        font-family: sans-serif;
+        background: linear-gradient(270deg, #ff8a8a, #ffd28a, #8affc1, #8ad4ff, #d28aff);
+        background-size: 1000% 1000%;
+        animation: bgShift 15s ease infinite;
+    }
+
+    @keyframes bgShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .text-container {
+        margin-top: 40vh;
+        display: flex;
+        gap: 0.1em;
+        font-size: 2rem;
+        font-weight: bold;
+        height: 2.4rem;
+        z-index: 1;
+    }
+
+    .dot {
+        width: 0.9em;
+        height: 0.9em;
+        background-color: currentColor;
+        border-radius: 50%;
+        align-self: center;
+        margin-top: 15px;
+    }
+
+    .bottom-bar {
+        width: 90%;
+        background-color: #000;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        border-top-left-radius: 2em;
+        border-top-right-radius: 2em;
+        padding: 14vh 5vw;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        z-index: 10; /* تم تقليله */
+        position: relative;
+        color: #fff;
+    }
+
+    .btn {
+        padding: 0.6em;
+        border: none;
+        border-radius: 1.5em;
+        font-size: 1rem;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .btn-primary {
+        background-color: #fff;
+        color: black;
+        margin-top: -60px;
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        border: 1px solid #333;
+        color: #fff;
+    }
+
+    canvas#canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 99999; /* فوق كل شيء */
+        pointer-events: none;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="text-container">
+    <div class="dot"></div>
+    <span id="changing-text">لنتعاون</span>
+</div>
+
+<div class="bottom-bar">
+    <button class="btn btn-primary" onclick="triggerSmokeTransition('sigin.html')">إنشاء حساب</button>
+    <button class="btn btn-secondary" onclick="triggerSmokeTransition('login.html')">تسجيل دخول</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/bijection/smoke.js/smoke.min.js"></script>
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const smoke = smokemachine(ctx, [255, 0, 0]); // دخان أحمر
+    smoke.start();
+
+    // دخان خلفية خفيف
+    setInterval(() => {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        for (let i = 0; i < 5; i++) {
+            const offsetX = (Math.random() - 0.5) * 200;
+            const offsetY = (Math.random() - 0.5) * 100;
+            smoke.addsmoke(centerX + offsetX, centerY + offsetY, 0.5);
+        }
+    }, 800);
+
+
+    // دخان كثيف وسريع عند الانتقال
+    function triggerSmokeTransition(targetPage) {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    // دخان خفيف من الأسفل
+    for (let i = 0; i < 40; i++) {
+        const x = Math.random() * screenWidth;
+        const y = screenHeight - -30;
+        smoke.addsmoke(x, y, 1);
+    }
+
+    // دخان خفيف من الأعلى
+    for (let i = 0; i < 15; i++) {
+        const x = Math.random() * screenWidth;
+        const y = 30;
+        smoke.addsmoke(x, y, 1);
+    }
+
+    // دخان خفيف من اليمين
+    for (let i = 0; i < 30; i++) {
+        const x = screenWidth - 10;
+        const y = Math.random() * screenHeight;
+        smoke.addsmoke(x, y, 0.8);
+    }
+
+    // دخان خفيف من اليسار
+    for (let i = 0; i < 10; i++) {
+        const x = 10;
+        const y = Math.random() * screenHeight;
+        smoke.addsmoke(x, y, 0.8);
+    }
+
+    // دخان ناعم من الوسط
+    const centerX = screenWidth / 2;
+    const centerY = screenHeight / 2;
+    for (let i = 0; i < 100; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = Math.random() * 60;
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+        smoke.addsmoke(x, y, -0.5); // يتلاشى بلطف
+    }
+
+    setTimeout(() => {
+        window.location.href = targetPage;
+    }, 1000); // تأخير بسيط للانتقال
+}
+</script>
+
+<script>
+    const words = [
+        "BoltAI،",
+        "شركاؤك الرقميون في الإنجاز",
+        "لنتعاون",
+        "لنبدع",
+        "لنبتكر",
+        "لنصمم",
+        "لننطلق"
+    ];
+
+    const colors = [
+        "#ff4d4d", "#333", "#1EB12D", "#3399ff", "#cc66ff", "#1D0AEF", "#ffffff"
+    ];
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    const textElement = document.getElementById("changing-text");
+    const dotElement = document.querySelector(".dot");
+
+    function typeEffect() {
+        let currentWord = words[wordIndex];
+        let currentColor = colors[wordIndex % colors.length];
+
+        if (deleting) {
+            textElement.textContent = currentWord.substring(0, charIndex--);
+            if (charIndex < 0) {
+                deleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                currentColor = colors[wordIndex % colors.length];
+                textElement.style.color = currentColor;
+                dotElement.style.backgroundColor = currentColor;
+                setTimeout(typeEffect, 200);
+                return;
+            }
+        } else {
+            textElement.textContent = currentWord.substring(0, charIndex++);
+            if (charIndex > currentWord.length) {
+                deleting = true;
+                setTimeout(typeEffect, 800);
+                return;
+            }
+        }
+        setTimeout(typeEffect, deleting ? 50 : 80);
+    }
+
+    textElement.style.color = colors[0];
+    dotElement.style.backgroundColor = colors[0];
+    typeEffect();
+</script>
+
+</body>
+</html>
