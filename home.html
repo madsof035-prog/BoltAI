@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <title>BoltAI Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding-top: 0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input:-webkit-autofill {
+      box-shadow: 0 0 0 1000px #fff inset !important;
+      -webkit-text-fill-color: #000 !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    .input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 50px 14px 14px;
+      font-size: 1rem;
+      border: 1px solid #d4d4d4;
+      border-radius: 50px;
+      background-color: #fff;
+      color: #000;
+      outline: none;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      border-color: #3e68ff;
+    }
+
+    input.error {
+      border-color: #e53e3e;
+    }
+
+    input.error:focus {
+      border-color: #e53e3e;
+    }
+
+    label {
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      background-color: #fff;
+      padding: 0 5px;
+      font-size: 0.8rem;
+      color: #b4b4b4;
+      font-weight: 400;
+      transition: color 0.3s ease;
+      pointer-events: none;
+    }
+
+    .input-group input:focus + label {
+      color: #3e68ff;
+    }
+
+    .input-group input.error + label {
+      color: #e53e3e;
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      text-align: left;
+      padding-left: 15px;
+      min-height: 20px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+      text-align: left;
+      gap: 10px;
+      margin-top: -10px;
+    }
+
+    .checkbox-group input {
+      width: auto;
+      margin: 0;
+    }
+
+    .checkbox-text {
+      color: #000;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .checkbox-text a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    button {
+      padding: 17px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 50px;
+      background-color: #000;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: 500;
+      position: relative;
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    button.loading::after {
+      content: "";
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      border: 2px solid #fff;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: translateY(-50%) rotate(360deg);
+      }
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #333;
+    }
+
+    .link {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #000;
+      font-weight: 400;
+    }
+
+    .link a {
+      color: #4da6ff;
+      text-decoration: none;
+      margin-left: 5px;
+    }
+
+    .footer {
+      margin-top: 100px;
+      font-size: 0.8rem;
+      color: #888;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer a {
+      color: #888;
+      text-decoration: none;
+    }
+
+    .footer span {
+      border-left: 1px solid #ccc;
+      padding-left: 15px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      top: 35%;
+      right: 15px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      transition: color 0.3s ease;
+      user-select: none;
+      z-index: 2;
+      -webkit-tap-highlight-color: transparent;  
+      text-decoration: none;
+    }
+
+    .password-toggle:focus {
+      outline: none;
+    }
+
+    .password-toggle svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .eye-open .pupil {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .password-toggle.active {
+      color: #3e68ff;
+    }
+
+    .success-message {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #c3e6cb;
+      text-align: center;
+    }
+
+    .resend-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .resend-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .resend-btn:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>BoltAI</h1>
+    <h2>Create your account</h2>
+
+    <div id="successMessage" class="success-message" style="display: none;">
+      ?? ????? ????? ?????? ??? ????? ??????????. ???? ??? ?????? ?????????? ?????? ??? ???? ?????? ??? ????? ??????.
+      <br><br>
+      ?? ??? ???????? ???? ?? ???? ??????? ??? ??????? ???? (Spam) ?? ???? ??? ???? ????? ?????? ???????.
+      <br>
+      <button id="resendBtn" class="resend-btn">????? ????? ????? ??????</button>
+    </div>
+
+    <form id="signupForm" novalidate>
+      <div class="input-group">
+        <input type="text" id="username" required />
+        <label for="username">Username</label>
+        <div id="usernameError" class="error-message"></div>
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" required />
+        <label for="email">Email address</label>
+        <div id="emailError" class="error-message"></div>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" required />
+        <label for="password">Password</label>
+        <span
+          class="password-toggle"
+          id="togglePassword"
+          tabindex="0"
+          role="button"
+          aria-label="Show or hide password"
+          title="Show/Hide Password"
+        >
+          <svg class="eye-open" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="32" cy="32" rx="30" ry="20" />
+            <circle class="pupil" cx="32" cy="32" r="12" />
+          </svg>
+
+          <svg
+            class="eye-closed"
+            viewBox="0 0 64 64"
+            xmlns="http://www.w3.org/2000/svg"
+            style="display:none;"
+          >
+            <ellipse cx="32" cy="32" rx="30" ry="20" />
+            <path
+              d="M20 20 L44 44 M44 20 L20 44"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+        <div id="passwordError" class="error-message"></div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="agree" />
+        <div class="checkbox-text">
+          By creating an account, you agree to our 
+          <a href="#" target="_blank"><strong>Privacy Policy</strong></a> 
+          and 
+          <a href="#" target="_blank"><strong>Terms of Use</strong></a>.
+        </div>
+      </div>
+
+      <button type="submit" id="signupBtn" disabled>Sign Up</button>
+    </form>
+
+    <div class="link">
+      Already have an account?<a href="#" onclick="alert('Login page would be here')">Log in</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="#" onclick="alert('Privacy Policy would be here')" target="_blank">Privacy Policy</a>
+    <span><a href="#" onclick="alert('Terms of Use would be here')" target="_blank">Terms of Use</a></span>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCNA6W5FGxeG8JVF76Ji6leGkiIzrG-mX8",
+      authDomain: "boltai-76f27.firebaseapp.com",
+      projectId: "boltai-76f27",
+      storageBucket: "boltai-76f27.appspot.com",
+      messagingSenderId: "1077115336489",
+      appId: "1:1077115336489:web:170cd8dd1e9f7247ef6938",
+      measurementId: "G-MND10EGJT4",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    const usernameInput = document.getElementById("username");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const agreeCheckbox = document.getElementById("agree");
+    const signupBtn = document.getElementById("signupBtn");
+    const successMessage = document.getElementById("successMessage");
+
+    const usernameError = document.getElementById("usernameError");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    let currentUser = null;
+
+    function clearError(input, errorElem) {
+      input.classList.remove("error");
+      errorElem.textContent = "";
+    }
+
+    function showError(input, errorElem, message) {
+      input.classList.add("error");
+      errorElem.textContent = message;
+    }
+
+    function validateUsername(username) {
+      if (!username || username.trim() === "") return "Username is required";
+      if (username.length < 3) return "Username must be at least 3 characters";
+      return null;
+    }
+
+    function validateEmail(email) {
+      if (!email || email.trim() === "") return "Email is required";
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) return "Please enter a valid email address";
+      return null;
+    }
+
+    function validatePassword(password) {
+      if (!password || password.trim() === "") return "Password is required";
+      if (password.length < 6) return "Password must be at least 6 characters";
+      return null;
+    }
+
+    function toggleButton() {
+      signupBtn.disabled = !agreeCheckbox.checked;
+    }
+    agreeCheckbox.addEventListener("change", toggleButton);
+
+    usernameInput.addEventListener("input", () => clearError(usernameInput, usernameError));
+    emailInput.addEventListener("input", () => clearError(emailInput, emailError));
+    passwordInput.addEventListener("input", () => clearError(passwordInput, passwordError));
+
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      clearError(usernameInput, usernameError);
+      clearError(emailInput, emailError);
+      clearError(passwordInput, passwordError);
+      successMessage.style.display = "none";
+
+      const username = usernameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      let hasErrors = false;
+
+      // ?????? ?? ????????
+      const usernameErrorMsg = validateUsername(username);
+      if (usernameErrorMsg) { 
+        showError(usernameInput, usernameError, usernameErrorMsg); 
+        hasErrors = true; 
+      }
+      
+      const emailErrorMsg = validateEmail(email);
+      if (emailErrorMsg) { 
+        showError(emailInput, emailError, emailErrorMsg); 
+        hasErrors = true; 
+      }
+      
+      const passwordErrorMsg = validatePassword(password);
+      if (passwordErrorMsg) { 
+        showError(passwordInput, passwordError, passwordErrorMsg); 
+        hasErrors = true; 
+      }
+
+      if (!agreeCheckbox.checked) {
+        alert("You must agree to Privacy Policy and Terms of Use");
+        hasErrors = true;
+      }
+      
+      if (hasErrors) return;
+
+      signupBtn.classList.add("loading");
+      signupBtn.disabled = true;
+
+      try {
+        // ????? ???? ????????
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
+        // ????? ????? ?????? ?????? ??? ????????
+        await updateProfile(userCredential.user, { displayName: username });
+        
+        // ????? ????? ?????? ?? ?????? ??????????
+        await sendEmailVerification(userCredential.user, {
+          url: window.location.origin + '/login.html',
+          handleCodeInApp: false
+        });
+
+        // ??? ???????? ?????? ?????? ???????
+        currentUser = userCredential.user;
+
+        // ????? ????? ??????
+        successMessage.style.display = "block";
+        
+        // ????? ???????
+        document.getElementById("signupForm").style.display = "none";
+
+        console.log("Account created successfully and verification email sent!");
+
+      } catch (error) {
+        console.error("Error during signup:", error);
+        const code = error.code;
+        
+        if (code === "auth/email-already-in-use") {
+          showError(emailInput, emailError, "Email is already in use");
+        } else if (code === "auth/invalid-email") {
+          showError(emailInput, emailError, "Invalid email format");
+        } else if (code === "auth/weak-password") {
+          showError(passwordInput, passwordError, "Password is too weak. Please choose a stronger one");
+        } else if (code === "auth/operation-not-allowed") {
+          alert("Email/password accounts are not enabled. Please contact support.");
+        } else {
+          alert("An error occurred: " + error.message);
+        }
+      } finally {
+        signupBtn.classList.remove("loading");
+        signupBtn.disabled = !agreeCheckbox.checked;
+      }
+    });
+
+    // ?????/????? ???? ??????
+    const togglePassword = document.getElementById("togglePassword");
+    const eyeOpen = togglePassword.querySelector(".eye-open");
+    const eyeClosed = togglePassword.querySelector(".eye-closed");
+
+    togglePassword.addEventListener("click", () => {
+      const isPassword = passwordInput.getAttribute("type") === "password";
+      passwordInput.setAttribute("type", isPassword ? "text" : "password");
+      if (isPassword) {
+        eyeOpen.style.display = "none";
+        eyeClosed.style.display = "block";
+        togglePassword.classList.add("active");
+      } else {
+        eyeOpen.style.display = "block";
+        eyeClosed.style.display = "none";
+        togglePassword.classList.remove("active");
+      }
+    });
+
+    // ????? ????? ????? ??????
+    document.getElementById("resendBtn").addEventListener("click", async () => {
+      if (!currentUser) {
+        alert("???: ?? ???? ?????? ????");
+        return;
+      }
+
+      const resendBtn = document.getElementById("resendBtn");
+      resendBtn.disabled = true;
+      resendBtn.textContent = "???? ???????...";
+
+      try {
+        await sendEmailVerification(currentUser, {
+          url: window.location.origin + '/login.html',
+          handleCodeInApp: false
+        });
+        
+        alert("?? ????? ????? ????? ?????? ?????!");
+        console.log("Verification email resent successfully");
+        
+      } catch (error) {
+        console.error("Error resending verification email:", error);
+        alert("??? ??? ????? ????? ???????: " + error.message);
+      } finally {
+        resendBtn.disabled = false;
+        resendBtn.textContent = "????? ????? ????? ??????";
+      }
+    });
+
+    // ?????? ?? ???? ?????? ?? ?????? ??????????
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User is signed in:", user.email);
+        console.log("Email verified:", user.emailVerified);
+      }
+    });
+  </script>
+</body>
+</html>
